@@ -1,0 +1,21 @@
+﻿using _2048.Models.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _2048.Models.DTO
+{
+    public record AchievementDTO
+    {
+        public int Id { get; set; }
+        public int TargetValue { get; set; }
+        public required string Name { get; set; }
+        public required string Description { get; set; } 
+        public required string IconPath { get; set; }
+        public AchievementType Type { get; set; }
+        public DateTime? CompletedAt { get; set; }
+        public bool IsCompleted { get; set; }
+    }
+}

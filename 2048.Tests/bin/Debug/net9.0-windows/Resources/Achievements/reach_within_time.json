@@ -1,0 +1,66 @@
+[
+  {
+    "Name": "Fast Start!",
+    "Description": "Reach tile 64 within 1 minute",
+    "TargetValue": 64,
+    "TimeLimitSeconds": 60,
+    "IconPath": "/Resources/Images/speed_64.jpg",
+    "Type": "ReachTileWithinMinute"
+  },
+  {
+    "Name": "Quick Gains!",
+    "Description": "Reach tile 128 within 1 minute",
+    "TargetValue": 128,
+    "TimeLimitSeconds": 60,
+    "IconPath": "/Resources/Images/speed_128.jpg",
+    "Type": "ReachTileWithinMinute"
+  },
+  {
+    "Name": "Speed Wizard!",
+    "Description": "Reach tile 256 within 1 minute",
+    "TargetValue": 256,
+    "TimeLimitSeconds": 60,
+    "IconPath": "/Resources/Images/speed_256.jpg",
+    "Type": "ReachTileWithinMinute"
+  },
+  {
+    "Name": "This is insane!",
+    "Description": "Reach tile 512 within 1 minute",
+    "TargetValue": 512,
+    "TimeLimitSeconds": 60,
+    "IconPath": "/Resources/Images/speed_512.jpg",
+    "Type": "ReachTileWithinMinute"
+  },
+  {
+    "Name": "Speedster Master!",
+    "Description": "Reach tile 1024 within 1 minute",
+    "TargetValue": 1024,
+    "TimeLimitSeconds": 60,
+    "IconPath": "/Resources/Images/speed_1024.jpg",
+    "Type": "ReachTileWithinMinute"
+  },
+  {
+    "Name": "Flash Power!",
+    "Description": "Reach tile 2048 within 1 minute",
+    "TargetValue": 2048,
+    "TimeLimitSeconds": 60,
+    "IconPath": "/Resources/Images/speed_2048.jpg",
+    "Type": "ReachTileWithinMinute"
+  },
+  {
+    "Name": "Beyond Human!",
+    "Description": "Reach tile 4096 within 1 minute",
+    "TargetValue": 4096,
+    "TimeLimitSeconds": 60,
+    "IconPath": "/Resources/Images/speed_4096.jpg",
+    "Type": "ReachTileWithinMinute"
+  },
+  {
+    "Name": "Godspeed!",
+    "Description": "Reach tile 8192 within 1 minute",
+    "TargetValue": 8192,
+    "TimeLimitSeconds": 60,
+    "IconPath": "/Resources/Images/speed_8192.jpg",
+    "Type": "ReachTileWithinMinute"
+  }
+]

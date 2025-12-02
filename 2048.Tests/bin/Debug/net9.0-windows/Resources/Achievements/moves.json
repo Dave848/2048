@@ -1,0 +1,16 @@
+[
+  {
+    "Name": "Strategic Marathon",
+    "Description": "Play a round with 1000+ moves",
+    "TargetValue": 1000,
+    "IconPath": "/Resources/Images/moves_over_1000.jpg",
+    "Type": "MovesCount"
+  },
+  {
+    "Name": "Never Give Up!",
+    "Description": "Play a round with 2000+ moves",
+    "TargetValue": 2000,
+    "IconPath": "/Resources/Images/moves_over_2000.jpg",
+    "Type": "MovesCount"
+  }
+]
