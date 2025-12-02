@@ -1,0 +1,219 @@
+﻿<UserControl x:Class="_2048.Views.GameView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:_2048.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800"
+             Focusable="True"
+             Loaded="UserControl_Loaded"
+             FontFamily="Tahoma"
+             FontSize="16">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+        <DataTemplate x:Key="AchievementPopupTemplate">
+            <Border
+                Background="#FF555555"
+                CornerRadius="8"
+                Padding="10"
+                Margin="0,0,0,8"
+                Height="60">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{Binding IconPath}"
+                   Width="40" Height="40" Margin="0,0,10,0"/>
+                    <StackPanel>
+                        <TextBlock Text="Achievement Unlocked!"
+                           Foreground="Gold"
+                           FontWeight="Bold"
+                           FontSize="14"/>
+                        <TextBlock Text="{Binding Name}"
+                           Foreground="White"
+                           FontSize="12"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+
+        <Storyboard x:Key="ShowAchievementAnimation">
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.Opacity)"
+                        From="0" 
+                        To="1" 
+                        Duration="0:0:0.4"/>
+            <ThicknessAnimation Storyboard.TargetProperty="(FrameworkElement.Margin)"
+                        From="0,-80,0,0"
+                        To="0,0,0,0"
+                        Duration="0:0:0.4"
+                        DecelerationRatio="0.9"/>
+        </Storyboard>
+
+        <Storyboard x:Key="HideAchievementAnimation">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                     From="1" To="0" Duration="0:0:0.4"
+                     BeginTime="0:0:2"/>
+        </Storyboard>
+    </UserControl.Resources>
+
+    <Grid>
+        <!-- Achievement Popup -->
+        <StackPanel x:Name="AchievementPopupPanel"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Left"
+            Margin="10"
+            Panel.ZIndex="9999"
+            Orientation="Vertical"
+            IsHitTestVisible="False"
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+
+            <!-- Game UI -->
+            <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,50,0,0">
+                <!-- Score / Time -->
+                <DockPanel HorizontalAlignment="Stretch" Margin="0,0,0,10">
+                    <WrapPanel DockPanel.Dock="Left" HorizontalAlignment="Left">
+                        <TextBlock Text="Time: " DockPanel.Dock="Left" FontSize="18" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding ElapsedTime}" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" Margin="10,0,0,0" MinWidth="30px"/>
+                    </WrapPanel>
+                    <WrapPanel DockPanel.Dock="Right" HorizontalAlignment="Right">
+                        <TextBlock Text="Score: " FontSize="18" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding Score}" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" Margin="10,0,0,0" MinWidth="30px"/>
+                    </WrapPanel>
+                </DockPanel>
+
+                <!-- Tiles -->
+                <ItemsControl Width="360px" Height="360px" ItemsSource="{Binding Tiles}" Background="DimGray">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="4" Columns="4"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <local:TileView/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!-- Back button -->
+                <Button Content="Back to Menu" Width="150" Height="40" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,30,0,30" Command="{Binding NavigateMainMenuCommand}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="2">
+                <Border
+                    HorizontalAlignment="Right"    
+                    Width="24"
+                    Height="24"
+                    CornerRadius="12"
+                    Background="Gray"
+                    Cursor="Help"
+                    Margin="10"
+                    ToolTipService.InitialShowDelay="0">
+
+                    <TextBlock Text="?"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Foreground="White"
+                       FontWeight="Bold" />
+
+                    <Border.ToolTip>
+                        <ToolTip StaysOpen="True">
+                            <TextBlock TextAlignment="Center"
+                               TextWrapping="Wrap"
+                               MaxWidth="220"
+                               FontSize="12"
+                               Text="The goal of this game is to get the highest possible tile value 
+                                     by merging the same tiles. 
+                                     To move tiles press arrow keys on your keyboard." />
+                        </ToolTip>
+                    </Border.ToolTip>
+                </Border>
+            </StackPanel>
+        </Grid>
+        
+        <!-- Finished game popup -->
+        <Grid Visibility="{Binding ShowFinishedGamePopup, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                Background="#80000000"
+                Opacity="0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <!-- Popup opens -->
+                        <DataTrigger Binding="{Binding ShowFinishedGamePopup}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                From="0" To="1"
+                                                Duration="0:0:0.5"
+                                                FillBehavior="HoldEnd"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <Border
+                MinWidth="250"
+                Background="LightSlateGray" 
+                BorderBrush="Black" 
+                BorderThickness="0.5"
+                CornerRadius="25"
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Center"
+                Padding="10">
+                <Border.Effect>
+                    <DropShadowEffect Color="Black" 
+                            Direction="320" 
+                            ShadowDepth="5" 
+                            BlurRadius="10" 
+                            Opacity="0.5"/>
+                </Border.Effect>
+
+                <StackPanel MinWidth="300px">
+                    <TextBlock Margin="5" Text="Game over!" FontWeight="Bold" FontSize="24" HorizontalAlignment="Center"/>
+
+                    <StackPanel Orientation="Horizontal" Margin="20, 20, 0, 10">
+                        <TextBlock Text="Score: " VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding Score}"  VerticalAlignment="Center" Margin="10,0,0,0" MinWidth="30px"/>
+                    </StackPanel>
+                    <Separator Height="5px"/>
+                    <StackPanel Orientation="Horizontal" Margin="20, 10, 0, 10">
+                        <TextBlock Text="Time: "  VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding ElapsedTime}" FontWeight="Bold" VerticalAlignment="Center" Margin="10,0,0,0" MinWidth="30px"/>
+                    </StackPanel>
+                    <Separator Height="5px"/>
+                    <DockPanel HorizontalAlignment="Stretch" Margin="20, 10, 0, 20">
+                        <TextBlock Text="Enter your name:" VerticalAlignment="Center" Margin="0, 0, 20, 0"/>
+                        <TextBox  Text="{Binding PlayerName}"  FontWeight="Bold" MinWidth="150px" HorizontalAlignment="Right" VerticalAlignment="Center" MaxLength="10" Padding="2"/>
+                    </DockPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Margin="5" Content="Cancel" Command="{Binding CancelButton}" Padding="5px"/>
+                        <Button Margin="5" Content="Save score" Command="{Binding SaveScoreButton}" Padding="5px"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+
+    <UserControl.InputBindings>
+        <KeyBinding Key="Up"    Command="{Binding MoveUpCommand}"/>
+        <KeyBinding Key="Down"  Command="{Binding MoveDownCommand}"/>
+        <KeyBinding Key="Left"  Command="{Binding MoveLeftCommand}"/>
+        <KeyBinding Key="Right" Command="{Binding MoveRightCommand}"/>
+    </UserControl.InputBindings>
+</UserControl>

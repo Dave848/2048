@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="_2048.Views.ScoreboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:_2048.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="300px"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Scoreboard" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" Margin="0,30,0,30"/>
+        <DataGrid
+            Grid.Row="1"
+            ItemsSource="{Binding Records}"
+            Margin="100, 0"
+            x:Name="MyDataGrid"
+            AutoGenerateColumns="False"
+            CanUserAddRows="False"
+            HeadersVisibility="Column">
+            <DataGrid.Resources>
+                <Style x:Key="CenterTextStyle" TargetType="TextBlock">
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                    <Setter Property="TextAlignment"       Value="Center" />
+                </Style>
+            </DataGrid.Resources>
+
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Player" Binding="{Binding PlayerName}" CanUserResize="False" IsReadOnly="True" Width="*" ElementStyle="{StaticResource CenterTextStyle}" />
+                <DataGridTextColumn Header="Score"  Binding="{Binding Score}"      CanUserResize="False" IsReadOnly="True" Width="*" ElementStyle="{StaticResource CenterTextStyle}"/>
+                <DataGridTextColumn Header="Time"   Binding="{Binding Time}"       CanUserResize="False" IsReadOnly="True" Width="*" ElementStyle="{StaticResource CenterTextStyle}"/>
+                <DataGridTextColumn Header="Date"   Binding="{Binding Date}"       CanUserResize="False" IsReadOnly="True" Width="*" ElementStyle="{StaticResource CenterTextStyle}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Grid Grid.Row="2"  Margin="100,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button  Grid.Column="0" Height="Auto" HorizontalAlignment="Left"   Padding="10,5" Content="Previous" Command="{Binding PagePrevious}" />
+
+            <TextBox Grid.Column="1" Height="Auto" HorizontalAlignment="Center" Padding="10,5" Text="{Binding Page}" IsReadOnly="True" />
+
+            <Button  Grid.Column="2" Height="Auto" HorizontalAlignment="Right"  Padding="10,5" Content="Next"  Command="{Binding PageNext}" />
+        </Grid>
+        <Button Grid.Row="3" Content="Back to Menu" Width="150" Height="40" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,30,0,30" Command="{Binding NavigateMainMenuCommand}"/>
+    </Grid>
+</UserControl>
