@@ -116,7 +116,7 @@ namespace _2048.Tests
             };
             _engine.SetGameState(board, 0);
 
-            _engine.MoveTiles(MoveDirection.LEFT);
+            _engine.MoveTiles(MoveDirection.RIGHT);
 
             Assert.That(gameOverTriggered, Is.True);
         }
