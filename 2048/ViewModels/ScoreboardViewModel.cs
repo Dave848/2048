@@ -89,7 +89,7 @@ namespace _2048.ViewModels
 
         private void PageNextFunction()
         {
-            if (Page == _maxPageNumber)
+            if (Page >= _maxPageNumber)
                 return;
                 
             Page += 1;
