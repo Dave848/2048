@@ -78,7 +78,11 @@ namespace _2048.Services
 
         public async Task SetUncompletedAll()
         {
-            await _db.Achievements.ForEachAsync(a => a.IsCompleted = false);
+            await _db.Achievements.ForEachAsync(a => 
+            {
+                a.IsCompleted = false;
+                a.CompletedAt = null;
+            });
             await _db.SaveChangesAsync();
         }
     }
